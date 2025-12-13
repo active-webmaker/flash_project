@@ -1,5 +1,7 @@
 *.env
 *.venv*
 _docs*
+*_log.txt
 *_log*
+*_log.*
 *.log
