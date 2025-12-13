@@ -1,0 +1,495 @@
+2025-11-21 14:00:43,979 - __main__ - INFO - Initializing Desktop Backend Agent...
+2025-11-21 14:00:43,979 - __main__ - INFO - API Server URL: http://django-api:8000/api/v1
+2025-11-21 14:00:43,979 - __main__ - INFO - Local LLM URL: http://host.docker.internal:8008/v1
+2025-11-21 14:00:43,979 - __main__ - INFO - Target Git Repo Path: /app/temp_test_repo
+2025-11-21 14:00:45,358 - git.cmd - DEBUG - Popen(['git', 'version'], cwd=/app, stdin=None, shell=False, universal_newlines=False)
+2025-11-21 14:00:45,361 - git.cmd - DEBUG - Popen(['git', 'version'], cwd=/app, stdin=None, shell=False, universal_newlines=False)
+2025-11-21 14:00:45,390 - agent - WARNING - Test repository not found at /app/temp_test_repo. Initializing a new one.
+2025-11-21 14:00:45,392 - git.cmd - DEBUG - Popen(['git', 'init'], cwd=/app/temp_test_repo, stdin=None, shell=False, universal_newlines=False)
+2025-11-21 14:00:45,568 - git_analyzer - DEBUG - GitAnalyzer 초기화 시도: /app/temp_test_repo
+2025-11-21 14:00:45,578 - git_analyzer - INFO - GitAnalyzer가 성공적으로 초기화되었습니다: /app/temp_test_repo
+2025-11-21 14:00:45,867 - agent - INFO - ================================================================================
+2025-11-21 14:00:45,868 - agent - INFO - 🚀 Starting agent agent-docker (version v1.0.0)...
+2025-11-21 14:00:45,868 - agent - INFO - ================================================================================
+2025-11-21 14:00:45,869 - agent - INFO - API Server: http://django-api:8000/api/v1
+2025-11-21 14:00:45,869 - agent - INFO - Local LLM: http://host.docker.internal:8008/v1
+2025-11-21 14:00:45,870 - agent - INFO - Repository: /app/temp_test_repo
+2025-11-21 14:00:45,870 - agent - INFO - ================================================================================
+2025-11-21 14:00:45,874 - urllib3.connectionpool - DEBUG - Starting new HTTP connection (1): django-api:8000
+2025-11-21 14:00:47,075 - urllib3.connectionpool - DEBUG - http://django-api:8000 "POST /api/v1/agent/heartbeat HTTP/1.1" 200 43
+2025-11-21 14:00:47,076 - agent - DEBUG - 📤 Job 요청 중...
+2025-11-21 14:00:47,077 - urllib3.connectionpool - DEBUG - Starting new HTTP connection (1): django-api:8000
+2025-11-21 14:00:47,384 - urllib3.connectionpool - DEBUG - http://django-api:8000 "POST /api/v1/agent/jobs/request HTTP/1.1" 200 686
+2025-11-21 14:00:47,385 - agent - DEBUG -  수신된 JOB 페이로드: {'job_id': 37, 'job_type': 'repository_analysis', 'status': 'assigned', 'payload': {'prompt': 'Scan the entire file tree of the project, ignoring .git, __pycache__, and other common temporary directories.', 'language': 'json', 'project': {'id': 1, 'name': 'Flask API Project', 'local_path': '/home/projects/flask-api', 'remote_url': None}, 'description': 'Scan the entire file tree of the project, ignoring .git, __pycache__, and other common temporary directories.'}, 'project': {'id': 1, 'name': 'Flask API Project', 'local_path': '/home/projects/flask-api', 'remote_url': None, 'created_at': '2025-11-07T12:17:06.510412Z'}, 'created_at': '2025-11-18T16:35:32.251414Z', 'started_at': None, 'completed_at': None}
+2025-11-21 14:00:47,385 - agent - INFO - ================================================================================
+2025-11-21 14:00:47,385 - agent - INFO - ✅ 새 Job 수신: 37, 타입: repository_analysis
+2025-11-21 14:00:47,386 - agent - INFO - ================================================================================
+2025-11-21 14:00:47,386 - agent - INFO - Job's relative path: '/home/projects/flask-api' -> Resolved container path: '/home/projects/flask-api'
+2025-11-21 14:00:47,386 - agent - DEBUG - 📊 'repository_analysis' 타입의 작업을 확인했습니다. 경로: /home/projects/flask-api
+2025-11-21 14:00:47,387 - git_analyzer - DEBUG - GitAnalyzer 초기화 시도: /home/projects/flask-api
+2025-11-21 14:00:47,422 - git_analyzer - ERROR - 제공된 경로가 디렉터리가 아님: /home/projects/flask-api
+2025-11-21 14:00:47,423 - agent - ERROR - An unexpected error occurred: '/home/projects/flask-api'는 유효한 디렉터리가 아닙니다.
+Traceback (most recent call last):
+  File "/app/agent.py", line 409, in run_agent
+    job_git_analyzer = GitAnalyzer(repo_path=project_local_path)
+  File "/app/git_analyzer.py", line 22, in __init__
+    raise ValueError(f"'{repo_path}'는 유효한 디렉터리가 아닙니다.")
+ValueError: '/home/projects/flask-api'는 유효한 디렉터리가 아닙니다.
+2025-11-21 14:00:57,433 - urllib3.connectionpool - DEBUG - Starting new HTTP connection (1): django-api:8000
+2025-11-21 14:00:58,498 - urllib3.connectionpool - DEBUG - http://django-api:8000 "POST /api/v1/agent/heartbeat HTTP/1.1" 200 43
+2025-11-21 14:00:58,499 - agent - DEBUG - 📤 Job 요청 중...
+2025-11-21 14:00:58,500 - urllib3.connectionpool - DEBUG - Starting new HTTP connection (1): django-api:8000
+2025-11-21 14:00:58,699 - urllib3.connectionpool - DEBUG - http://django-api:8000 "POST /api/v1/agent/jobs/request HTTP/1.1" 200 686
+2025-11-21 14:00:58,700 - agent - DEBUG -  수신된 JOB 페이로드: {'job_id': 39, 'job_type': 'repository_analysis', 'status': 'assigned', 'payload': {'prompt': 'Scan the entire file tree of the project, ignoring .git, __pycache__, and other common temporary directories.', 'language': 'json', 'project': {'id': 1, 'name': 'Flask API Project', 'local_path': '/home/projects/flask-api', 'remote_url': None}, 'description': 'Scan the entire file tree of the project, ignoring .git, __pycache__, and other common temporary directories.'}, 'project': {'id': 1, 'name': 'Flask API Project', 'local_path': '/home/projects/flask-api', 'remote_url': None, 'created_at': '2025-11-07T12:17:06.510412Z'}, 'created_at': '2025-11-20T10:56:22.455958Z', 'started_at': None, 'completed_at': None}
+2025-11-21 14:00:58,700 - agent - INFO - ================================================================================
+2025-11-21 14:00:58,700 - agent - INFO - ✅ 새 Job 수신: 39, 타입: repository_analysis
+2025-11-21 14:00:58,701 - agent - INFO - ================================================================================
+2025-11-21 14:00:58,701 - agent - INFO - Job's relative path: '/home/projects/flask-api' -> Resolved container path: '/home/projects/flask-api'
+2025-11-21 14:00:58,701 - agent - DEBUG - 📊 'repository_analysis' 타입의 작업을 확인했습니다. 경로: /home/projects/flask-api
+2025-11-21 14:00:58,702 - git_analyzer - DEBUG - GitAnalyzer 초기화 시도: /home/projects/flask-api
+2025-11-21 14:00:58,702 - git_analyzer - ERROR - 제공된 경로가 디렉터리가 아님: /home/projects/flask-api
+2025-11-21 14:00:58,702 - agent - ERROR - An unexpected error occurred: '/home/projects/flask-api'는 유효한 디렉터리가 아닙니다.
+Traceback (most recent call last):
+  File "/app/agent.py", line 409, in run_agent
+    job_git_analyzer = GitAnalyzer(repo_path=project_local_path)
+  File "/app/git_analyzer.py", line 22, in __init__
+    raise ValueError(f"'{repo_path}'는 유효한 디렉터리가 아닙니다.")
+ValueError: '/home/projects/flask-api'는 유효한 디렉터리가 아닙니다.
+2025-11-21 14:01:08,705 - urllib3.connectionpool - DEBUG - Starting new HTTP connection (1): django-api:8000
+2025-11-21 14:01:08,789 - urllib3.connectionpool - DEBUG - http://django-api:8000 "POST /api/v1/agent/heartbeat HTTP/1.1" 200 43
+2025-11-21 14:01:08,790 - agent - DEBUG - 📤 Job 요청 중...
+2025-11-21 14:01:08,791 - urllib3.connectionpool - DEBUG - Starting new HTTP connection (1): django-api:8000
+2025-11-21 14:01:09,023 - urllib3.connectionpool - DEBUG - http://django-api:8000 "POST /api/v1/agent/jobs/request HTTP/1.1" 200 686
+2025-11-21 14:01:09,024 - agent - DEBUG -  수신된 JOB 페이로드: {'job_id': 40, 'job_type': 'repository_analysis', 'status': 'assigned', 'payload': {'prompt': 'Scan the entire file tree of the project, ignoring .git, __pycache__, and other common temporary directories.', 'language': 'json', 'project': {'id': 1, 'name': 'Flask API Project', 'local_path': '/home/projects/flask-api', 'remote_url': None}, 'description': 'Scan the entire file tree of the project, ignoring .git, __pycache__, and other common temporary directories.'}, 'project': {'id': 1, 'name': 'Flask API Project', 'local_path': '/home/projects/flask-api', 'remote_url': None, 'created_at': '2025-11-07T12:17:06.510412Z'}, 'created_at': '2025-11-20T11:17:26.870504Z', 'started_at': None, 'completed_at': None}
+2025-11-21 14:01:09,024 - agent - INFO - ================================================================================
+2025-11-21 14:01:09,025 - agent - INFO - ✅ 새 Job 수신: 40, 타입: repository_analysis
+2025-11-21 14:01:09,025 - agent - INFO - ================================================================================
+2025-11-21 14:01:09,025 - agent - INFO - Job's relative path: '/home/projects/flask-api' -> Resolved container path: '/home/projects/flask-api'
+2025-11-21 14:01:09,026 - agent - DEBUG - 📊 'repository_analysis' 타입의 작업을 확인했습니다. 경로: /home/projects/flask-api
+2025-11-21 14:01:09,026 - git_analyzer - DEBUG - GitAnalyzer 초기화 시도: /home/projects/flask-api
+2025-11-21 14:01:09,026 - git_analyzer - ERROR - 제공된 경로가 디렉터리가 아님: /home/projects/flask-api
+2025-11-21 14:01:09,026 - agent - ERROR - An unexpected error occurred: '/home/projects/flask-api'는 유효한 디렉터리가 아닙니다.
+Traceback (most recent call last):
+  File "/app/agent.py", line 409, in run_agent
+    job_git_analyzer = GitAnalyzer(repo_path=project_local_path)
+  File "/app/git_analyzer.py", line 22, in __init__
+    raise ValueError(f"'{repo_path}'는 유효한 디렉터리가 아닙니다.")
+ValueError: '/home/projects/flask-api'는 유효한 디렉터리가 아닙니다.
+2025-11-21 14:01:19,029 - urllib3.connectionpool - DEBUG - Starting new HTTP connection (1): django-api:8000
+2025-11-21 14:01:19,124 - urllib3.connectionpool - DEBUG - http://django-api:8000 "POST /api/v1/agent/heartbeat HTTP/1.1" 200 43
+2025-11-21 14:01:19,124 - agent - DEBUG - 📤 Job 요청 중...
+2025-11-21 14:01:19,125 - urllib3.connectionpool - DEBUG - Starting new HTTP connection (1): django-api:8000
+2025-11-21 14:01:19,317 - urllib3.connectionpool - DEBUG - http://django-api:8000 "POST /api/v1/agent/jobs/request HTTP/1.1" 200 686
+2025-11-21 14:01:19,317 - agent - DEBUG -  수신된 JOB 페이로드: {'job_id': 42, 'job_type': 'repository_analysis', 'status': 'assigned', 'payload': {'prompt': 'Scan the entire file tree of the project, ignoring .git, __pycache__, and other common temporary directories.', 'language': 'json', 'project': {'id': 1, 'name': 'Flask API Project', 'local_path': '/home/projects/flask-api', 'remote_url': None}, 'description': 'Scan the entire file tree of the project, ignoring .git, __pycache__, and other common temporary directories.'}, 'project': {'id': 1, 'name': 'Flask API Project', 'local_path': '/home/projects/flask-api', 'remote_url': None, 'created_at': '2025-11-07T12:17:06.510412Z'}, 'created_at': '2025-11-20T11:19:11.664883Z', 'started_at': None, 'completed_at': None}
+2025-11-21 14:01:19,318 - agent - INFO - ================================================================================
+2025-11-21 14:01:19,318 - agent - INFO - ✅ 새 Job 수신: 42, 타입: repository_analysis
+2025-11-21 14:01:19,318 - agent - INFO - ================================================================================
+2025-11-21 14:01:19,319 - agent - INFO - Job's relative path: '/home/projects/flask-api' -> Resolved container path: '/home/projects/flask-api'
+2025-11-21 14:01:19,319 - agent - DEBUG - 📊 'repository_analysis' 타입의 작업을 확인했습니다. 경로: /home/projects/flask-api
+2025-11-21 14:01:19,320 - git_analyzer - DEBUG - GitAnalyzer 초기화 시도: /home/projects/flask-api
+2025-11-21 14:01:19,320 - git_analyzer - ERROR - 제공된 경로가 디렉터리가 아님: /home/projects/flask-api
+2025-11-21 14:01:19,320 - agent - ERROR - An unexpected error occurred: '/home/projects/flask-api'는 유효한 디렉터리가 아닙니다.
+Traceback (most recent call last):
+  File "/app/agent.py", line 409, in run_agent
+    job_git_analyzer = GitAnalyzer(repo_path=project_local_path)
+  File "/app/git_analyzer.py", line 22, in __init__
+    raise ValueError(f"'{repo_path}'는 유효한 디렉터리가 아닙니다.")
+ValueError: '/home/projects/flask-api'는 유효한 디렉터리가 아닙니다.
+2025-11-21 14:01:29,323 - urllib3.connectionpool - DEBUG - Starting new HTTP connection (1): django-api:8000
+2025-11-21 14:01:29,408 - urllib3.connectionpool - DEBUG - http://django-api:8000 "POST /api/v1/agent/heartbeat HTTP/1.1" 200 43
+2025-11-21 14:01:29,408 - agent - DEBUG - 📤 Job 요청 중...
+2025-11-21 14:01:29,409 - urllib3.connectionpool - DEBUG - Starting new HTTP connection (1): django-api:8000
+2025-11-21 14:01:29,659 - urllib3.connectionpool - DEBUG - http://django-api:8000 "POST /api/v1/agent/jobs/request HTTP/1.1" 200 720
+2025-11-21 14:01:29,660 - agent - DEBUG -  수신된 JOB 페이로드: {'job_id': 43, 'job_type': 'repository_analysis', 'status': 'assigned', 'payload': {'prompt': 'Calculate the lines of code for each programming language in the project. Ignore documentation, configuration, and data files.', 'language': 'json', 'project': {'id': 1, 'name': 'Flask API Project', 'local_path': '/home/projects/flask-api', 'remote_url': None}, 'description': 'Calculate the lines of code for each programming language in the project. Ignore documentation, configuration, and data files.'}, 'project': {'id': 1, 'name': 'Flask API Project', 'local_path': '/home/projects/flask-api', 'remote_url': None, 'created_at': '2025-11-07T12:17:06.510412Z'}, 'created_at': '2025-11-20T11:20:03.690286Z', 'started_at': None, 'completed_at': None}
+2025-11-21 14:01:29,661 - agent - INFO - ================================================================================
+2025-11-21 14:01:29,661 - agent - INFO - ✅ 새 Job 수신: 43, 타입: repository_analysis
+2025-11-21 14:01:29,661 - agent - INFO - ================================================================================
+2025-11-21 14:01:29,662 - agent - INFO - Job's relative path: '/home/projects/flask-api' -> Resolved container path: '/home/projects/flask-api'
+2025-11-21 14:01:29,662 - agent - DEBUG - 📊 'repository_analysis' 타입의 작업을 확인했습니다. 경로: /home/projects/flask-api
+2025-11-21 14:01:29,662 - git_analyzer - DEBUG - GitAnalyzer 초기화 시도: /home/projects/flask-api
+2025-11-21 14:01:29,663 - git_analyzer - ERROR - 제공된 경로가 디렉터리가 아님: /home/projects/flask-api
+2025-11-21 14:01:29,663 - agent - ERROR - An unexpected error occurred: '/home/projects/flask-api'는 유효한 디렉터리가 아닙니다.
+Traceback (most recent call last):
+  File "/app/agent.py", line 409, in run_agent
+    job_git_analyzer = GitAnalyzer(repo_path=project_local_path)
+  File "/app/git_analyzer.py", line 22, in __init__
+    raise ValueError(f"'{repo_path}'는 유효한 디렉터리가 아닙니다.")
+ValueError: '/home/projects/flask-api'는 유효한 디렉터리가 아닙니다.
+2025-11-21 14:01:39,664 - urllib3.connectionpool - DEBUG - Starting new HTTP connection (1): django-api:8000
+2025-11-21 14:01:40,691 - urllib3.connectionpool - DEBUG - http://django-api:8000 "POST /api/v1/agent/heartbeat HTTP/1.1" 200 43
+2025-11-21 14:01:40,691 - agent - DEBUG - 📤 Job 요청 중...
+2025-11-21 14:01:40,692 - urllib3.connectionpool - DEBUG - Starting new HTTP connection (1): django-api:8000
+2025-11-21 14:01:40,948 - urllib3.connectionpool - DEBUG - http://django-api:8000 "POST /api/v1/agent/jobs/request HTTP/1.1" 200 576
+2025-11-21 14:01:40,949 - agent - DEBUG -  수신된 JOB 페이로드: {'job_id': 44, 'job_type': 'repository_analysis', 'status': 'assigned', 'payload': {'prompt': 'Get the current git diff for the project staging area.', 'language': 'diff', 'project': {'id': 1, 'name': 'Flask API Project', 'local_path': '/home/projects/flask-api', 'remote_url': None}, 'description': 'Get the current git diff for the project staging area.'}, 'project': {'id': 1, 'name': 'Flask API Project', 'local_path': '/home/projects/flask-api', 'remote_url': None, 'created_at': '2025-11-07T12:17:06.510412Z'}, 'created_at': '2025-11-20T11:20:31.520444Z', 'started_at': None, 'completed_at': None}
+2025-11-21 14:01:40,949 - agent - INFO - ================================================================================
+2025-11-21 14:01:40,950 - agent - INFO - ✅ 새 Job 수신: 44, 타입: repository_analysis
+2025-11-21 14:01:40,950 - agent - INFO - ================================================================================
+2025-11-21 14:01:40,950 - agent - INFO - Job's relative path: '/home/projects/flask-api' -> Resolved container path: '/home/projects/flask-api'
+2025-11-21 14:01:40,951 - agent - DEBUG - 📊 'repository_analysis' 타입의 작업을 확인했습니다. 경로: /home/projects/flask-api
+2025-11-21 14:01:40,951 - git_analyzer - DEBUG - GitAnalyzer 초기화 시도: /home/projects/flask-api
+2025-11-21 14:01:40,951 - git_analyzer - ERROR - 제공된 경로가 디렉터리가 아님: /home/projects/flask-api
+2025-11-21 14:01:40,951 - agent - ERROR - An unexpected error occurred: '/home/projects/flask-api'는 유효한 디렉터리가 아닙니다.
+Traceback (most recent call last):
+  File "/app/agent.py", line 409, in run_agent
+    job_git_analyzer = GitAnalyzer(repo_path=project_local_path)
+  File "/app/git_analyzer.py", line 22, in __init__
+    raise ValueError(f"'{repo_path}'는 유효한 디렉터리가 아닙니다.")
+ValueError: '/home/projects/flask-api'는 유효한 디렉터리가 아닙니다.
+2025-11-21 14:01:50,954 - urllib3.connectionpool - DEBUG - Starting new HTTP connection (1): django-api:8000
+2025-11-21 14:01:51,058 - urllib3.connectionpool - DEBUG - http://django-api:8000 "POST /api/v1/agent/heartbeat HTTP/1.1" 200 43
+2025-11-21 14:01:51,058 - agent - DEBUG - 📤 Job 요청 중...
+2025-11-21 14:01:51,059 - urllib3.connectionpool - DEBUG - Starting new HTTP connection (1): django-api:8000
+2025-11-21 14:01:51,291 - urllib3.connectionpool - DEBUG - http://django-api:8000 "POST /api/v1/agent/jobs/request HTTP/1.1" 200 686
+2025-11-21 14:01:51,292 - agent - DEBUG -  수신된 JOB 페이로드: {'job_id': 45, 'job_type': 'repository_analysis', 'status': 'assigned', 'payload': {'prompt': 'Scan the entire file tree of the project, ignoring .git, __pycache__, and other common temporary directories.', 'language': 'json', 'project': {'id': 1, 'name': 'Flask API Project', 'local_path': '/home/projects/flask-api', 'remote_url': None}, 'description': 'Scan the entire file tree of the project, ignoring .git, __pycache__, and other common temporary directories.'}, 'project': {'id': 1, 'name': 'Flask API Project', 'local_path': '/home/projects/flask-api', 'remote_url': None, 'created_at': '2025-11-07T12:17:06.510412Z'}, 'created_at': '2025-11-20T11:22:32.554097Z', 'started_at': None, 'completed_at': None}
+2025-11-21 14:01:51,292 - agent - INFO - ================================================================================
+2025-11-21 14:01:51,293 - agent - INFO - ✅ 새 Job 수신: 45, 타입: repository_analysis
+2025-11-21 14:01:51,293 - agent - INFO - ================================================================================
+2025-11-21 14:01:51,294 - agent - INFO - Job's relative path: '/home/projects/flask-api' -> Resolved container path: '/home/projects/flask-api'
+2025-11-21 14:01:51,294 - agent - DEBUG - 📊 'repository_analysis' 타입의 작업을 확인했습니다. 경로: /home/projects/flask-api
+2025-11-21 14:01:51,294 - git_analyzer - DEBUG - GitAnalyzer 초기화 시도: /home/projects/flask-api
+2025-11-21 14:01:51,294 - git_analyzer - ERROR - 제공된 경로가 디렉터리가 아님: /home/projects/flask-api
+2025-11-21 14:01:51,294 - agent - ERROR - An unexpected error occurred: '/home/projects/flask-api'는 유효한 디렉터리가 아닙니다.
+Traceback (most recent call last):
+  File "/app/agent.py", line 409, in run_agent
+    job_git_analyzer = GitAnalyzer(repo_path=project_local_path)
+  File "/app/git_analyzer.py", line 22, in __init__
+    raise ValueError(f"'{repo_path}'는 유효한 디렉터리가 아닙니다.")
+ValueError: '/home/projects/flask-api'는 유효한 디렉터리가 아닙니다.
+2025-11-21 14:02:01,297 - urllib3.connectionpool - DEBUG - Starting new HTTP connection (1): django-api:8000
+2025-11-21 14:02:01,409 - urllib3.connectionpool - DEBUG - http://django-api:8000 "POST /api/v1/agent/heartbeat HTTP/1.1" 200 43
+2025-11-21 14:02:01,410 - agent - DEBUG - 📤 Job 요청 중...
+2025-11-21 14:02:01,410 - urllib3.connectionpool - DEBUG - Starting new HTTP connection (1): django-api:8000
+2025-11-21 14:02:01,685 - urllib3.connectionpool - DEBUG - http://django-api:8000 "POST /api/v1/agent/jobs/request HTTP/1.1" 200 686
+2025-11-21 14:02:01,685 - agent - DEBUG -  수신된 JOB 페이로드: {'job_id': 48, 'job_type': 'repository_analysis', 'status': 'assigned', 'payload': {'prompt': 'Scan the entire file tree of the project, ignoring .git, __pycache__, and other common temporary directories.', 'language': 'json', 'project': {'id': 1, 'name': 'Flask API Project', 'local_path': '/home/projects/flask-api', 'remote_url': None}, 'description': 'Scan the entire file tree of the project, ignoring .git, __pycache__, and other common temporary directories.'}, 'project': {'id': 1, 'name': 'Flask API Project', 'local_path': '/home/projects/flask-api', 'remote_url': None, 'created_at': '2025-11-07T12:17:06.510412Z'}, 'created_at': '2025-11-20T12:28:53.645783Z', 'started_at': None, 'completed_at': None}
+2025-11-21 14:02:01,686 - agent - INFO - ================================================================================
+2025-11-21 14:02:01,686 - agent - INFO - ✅ 새 Job 수신: 48, 타입: repository_analysis
+2025-11-21 14:02:01,687 - agent - INFO - ================================================================================
+2025-11-21 14:02:01,687 - agent - INFO - Job's relative path: '/home/projects/flask-api' -> Resolved container path: '/home/projects/flask-api'
+2025-11-21 14:02:01,687 - agent - DEBUG - 📊 'repository_analysis' 타입의 작업을 확인했습니다. 경로: /home/projects/flask-api
+2025-11-21 14:02:01,688 - git_analyzer - DEBUG - GitAnalyzer 초기화 시도: /home/projects/flask-api
+2025-11-21 14:02:01,688 - git_analyzer - ERROR - 제공된 경로가 디렉터리가 아님: /home/projects/flask-api
+2025-11-21 14:02:01,688 - agent - ERROR - An unexpected error occurred: '/home/projects/flask-api'는 유효한 디렉터리가 아닙니다.
+Traceback (most recent call last):
+  File "/app/agent.py", line 409, in run_agent
+    job_git_analyzer = GitAnalyzer(repo_path=project_local_path)
+  File "/app/git_analyzer.py", line 22, in __init__
+    raise ValueError(f"'{repo_path}'는 유효한 디렉터리가 아닙니다.")
+ValueError: '/home/projects/flask-api'는 유효한 디렉터리가 아닙니다.
+2025-11-21 14:02:11,689 - urllib3.connectionpool - DEBUG - Starting new HTTP connection (1): django-api:8000
+2025-11-21 14:02:11,802 - urllib3.connectionpool - DEBUG - http://django-api:8000 "POST /api/v1/agent/heartbeat HTTP/1.1" 200 43
+2025-11-21 14:02:11,802 - agent - DEBUG - 📤 Job 요청 중...
+2025-11-21 14:02:11,803 - urllib3.connectionpool - DEBUG - Starting new HTTP connection (1): django-api:8000
+2025-11-21 14:02:12,018 - urllib3.connectionpool - DEBUG - http://django-api:8000 "POST /api/v1/agent/jobs/request HTTP/1.1" 200 686
+2025-11-21 14:02:12,019 - agent - DEBUG -  수신된 JOB 페이로드: {'job_id': 50, 'job_type': 'repository_analysis', 'status': 'assigned', 'payload': {'prompt': 'Scan the entire file tree of the project, ignoring .git, __pycache__, and other common temporary directories.', 'language': 'json', 'project': {'id': 1, 'name': 'Flask API Project', 'local_path': '/home/projects/flask-api', 'remote_url': None}, 'description': 'Scan the entire file tree of the project, ignoring .git, __pycache__, and other common temporary directories.'}, 'project': {'id': 1, 'name': 'Flask API Project', 'local_path': '/home/projects/flask-api', 'remote_url': None, 'created_at': '2025-11-07T12:17:06.510412Z'}, 'created_at': '2025-11-20T13:14:11.277043Z', 'started_at': None, 'completed_at': None}
+2025-11-21 14:02:12,019 - agent - INFO - ================================================================================
+2025-11-21 14:02:12,020 - agent - INFO - ✅ 새 Job 수신: 50, 타입: repository_analysis
+2025-11-21 14:02:12,020 - agent - INFO - ================================================================================
+2025-11-21 14:02:12,020 - agent - INFO - Job's relative path: '/home/projects/flask-api' -> Resolved container path: '/home/projects/flask-api'
+2025-11-21 14:02:12,020 - agent - DEBUG - 📊 'repository_analysis' 타입의 작업을 확인했습니다. 경로: /home/projects/flask-api
+2025-11-21 14:02:12,021 - git_analyzer - DEBUG - GitAnalyzer 초기화 시도: /home/projects/flask-api
+2025-11-21 14:02:12,021 - git_analyzer - ERROR - 제공된 경로가 디렉터리가 아님: /home/projects/flask-api
+2025-11-21 14:02:12,021 - agent - ERROR - An unexpected error occurred: '/home/projects/flask-api'는 유효한 디렉터리가 아닙니다.
+Traceback (most recent call last):
+  File "/app/agent.py", line 409, in run_agent
+    job_git_analyzer = GitAnalyzer(repo_path=project_local_path)
+  File "/app/git_analyzer.py", line 22, in __init__
+    raise ValueError(f"'{repo_path}'는 유효한 디렉터리가 아닙니다.")
+ValueError: '/home/projects/flask-api'는 유효한 디렉터리가 아닙니다.
+2025-11-21 14:02:22,025 - urllib3.connectionpool - DEBUG - Starting new HTTP connection (1): django-api:8000
+2025-11-21 14:02:22,112 - urllib3.connectionpool - DEBUG - http://django-api:8000 "POST /api/v1/agent/heartbeat HTTP/1.1" 200 43
+2025-11-21 14:02:22,113 - agent - DEBUG - 📤 Job 요청 중...
+2025-11-21 14:02:22,114 - urllib3.connectionpool - DEBUG - Starting new HTTP connection (1): django-api:8000
+2025-11-21 14:02:22,321 - urllib3.connectionpool - DEBUG - http://django-api:8000 "POST /api/v1/agent/jobs/request HTTP/1.1" 200 686
+2025-11-21 14:02:22,321 - agent - DEBUG -  수신된 JOB 페이로드: {'job_id': 51, 'job_type': 'repository_analysis', 'status': 'assigned', 'payload': {'prompt': 'Scan the entire file tree of the project, ignoring .git, __pycache__, and other common temporary directories.', 'language': 'json', 'project': {'id': 1, 'name': 'Flask API Project', 'local_path': '/home/projects/flask-api', 'remote_url': None}, 'description': 'Scan the entire file tree of the project, ignoring .git, __pycache__, and other common temporary directories.'}, 'project': {'id': 1, 'name': 'Flask API Project', 'local_path': '/home/projects/flask-api', 'remote_url': None, 'created_at': '2025-11-07T12:17:06.510412Z'}, 'created_at': '2025-11-20T13:14:43.891688Z', 'started_at': None, 'completed_at': None}
+2025-11-21 14:02:22,321 - agent - INFO - ================================================================================
+2025-11-21 14:02:22,322 - agent - INFO - ✅ 새 Job 수신: 51, 타입: repository_analysis
+2025-11-21 14:02:22,322 - agent - INFO - ================================================================================
+2025-11-21 14:02:22,322 - agent - INFO - Job's relative path: '/home/projects/flask-api' -> Resolved container path: '/home/projects/flask-api'
+2025-11-21 14:02:22,323 - agent - DEBUG - 📊 'repository_analysis' 타입의 작업을 확인했습니다. 경로: /home/projects/flask-api
+2025-11-21 14:02:22,323 - git_analyzer - DEBUG - GitAnalyzer 초기화 시도: /home/projects/flask-api
+2025-11-21 14:02:22,323 - git_analyzer - ERROR - 제공된 경로가 디렉터리가 아님: /home/projects/flask-api
+2025-11-21 14:02:22,323 - agent - ERROR - An unexpected error occurred: '/home/projects/flask-api'는 유효한 디렉터리가 아닙니다.
+Traceback (most recent call last):
+  File "/app/agent.py", line 409, in run_agent
+    job_git_analyzer = GitAnalyzer(repo_path=project_local_path)
+  File "/app/git_analyzer.py", line 22, in __init__
+    raise ValueError(f"'{repo_path}'는 유효한 디렉터리가 아닙니다.")
+ValueError: '/home/projects/flask-api'는 유효한 디렉터리가 아닙니다.
+2025-11-21 14:02:32,326 - urllib3.connectionpool - DEBUG - Starting new HTTP connection (1): django-api:8000
+2025-11-21 14:02:32,414 - urllib3.connectionpool - DEBUG - http://django-api:8000 "POST /api/v1/agent/heartbeat HTTP/1.1" 200 43
+2025-11-21 14:02:32,415 - agent - DEBUG - 📤 Job 요청 중...
+2025-11-21 14:02:32,416 - urllib3.connectionpool - DEBUG - Starting new HTTP connection (1): django-api:8000
+2025-11-21 14:02:32,599 - urllib3.connectionpool - DEBUG - http://django-api:8000 "POST /api/v1/agent/jobs/request HTTP/1.1" 200 720
+2025-11-21 14:02:32,600 - agent - DEBUG -  수신된 JOB 페이로드: {'job_id': 52, 'job_type': 'repository_analysis', 'status': 'assigned', 'payload': {'prompt': 'Calculate the lines of code for each programming language in the project. Ignore documentation, configuration, and data files.', 'language': 'json', 'project': {'id': 1, 'name': 'Flask API Project', 'local_path': '/home/projects/flask-api', 'remote_url': None}, 'description': 'Calculate the lines of code for each programming language in the project. Ignore documentation, configuration, and data files.'}, 'project': {'id': 1, 'name': 'Flask API Project', 'local_path': '/home/projects/flask-api', 'remote_url': None, 'created_at': '2025-11-07T12:17:06.510412Z'}, 'created_at': '2025-11-20T13:16:38.523860Z', 'started_at': None, 'completed_at': None}
+2025-11-21 14:02:32,601 - agent - INFO - ================================================================================
+2025-11-21 14:02:32,601 - agent - INFO - ✅ 새 Job 수신: 52, 타입: repository_analysis
+2025-11-21 14:02:32,602 - agent - INFO - ================================================================================
+2025-11-21 14:02:32,602 - agent - INFO - Job's relative path: '/home/projects/flask-api' -> Resolved container path: '/home/projects/flask-api'
+2025-11-21 14:02:32,602 - agent - DEBUG - 📊 'repository_analysis' 타입의 작업을 확인했습니다. 경로: /home/projects/flask-api
+2025-11-21 14:02:32,603 - git_analyzer - DEBUG - GitAnalyzer 초기화 시도: /home/projects/flask-api
+2025-11-21 14:02:32,603 - git_analyzer - ERROR - 제공된 경로가 디렉터리가 아님: /home/projects/flask-api
+2025-11-21 14:02:32,603 - agent - ERROR - An unexpected error occurred: '/home/projects/flask-api'는 유효한 디렉터리가 아닙니다.
+Traceback (most recent call last):
+  File "/app/agent.py", line 409, in run_agent
+    job_git_analyzer = GitAnalyzer(repo_path=project_local_path)
+  File "/app/git_analyzer.py", line 22, in __init__
+    raise ValueError(f"'{repo_path}'는 유효한 디렉터리가 아닙니다.")
+ValueError: '/home/projects/flask-api'는 유효한 디렉터리가 아닙니다.
+2025-11-21 14:02:42,604 - urllib3.connectionpool - DEBUG - Starting new HTTP connection (1): django-api:8000
+2025-11-21 14:02:42,687 - urllib3.connectionpool - DEBUG - http://django-api:8000 "POST /api/v1/agent/heartbeat HTTP/1.1" 200 43
+2025-11-21 14:02:42,688 - agent - DEBUG - 📤 Job 요청 중...
+2025-11-21 14:02:42,689 - urllib3.connectionpool - DEBUG - Starting new HTTP connection (1): django-api:8000
+2025-11-21 14:02:42,930 - urllib3.connectionpool - DEBUG - http://django-api:8000 "POST /api/v1/agent/jobs/request HTTP/1.1" 200 576
+2025-11-21 14:02:42,930 - agent - DEBUG -  수신된 JOB 페이로드: {'job_id': 53, 'job_type': 'repository_analysis', 'status': 'assigned', 'payload': {'prompt': 'Get the current git diff for the project staging area.', 'language': 'diff', 'project': {'id': 1, 'name': 'Flask API Project', 'local_path': '/home/projects/flask-api', 'remote_url': None}, 'description': 'Get the current git diff for the project staging area.'}, 'project': {'id': 1, 'name': 'Flask API Project', 'local_path': '/home/projects/flask-api', 'remote_url': None, 'created_at': '2025-11-07T12:17:06.510412Z'}, 'created_at': '2025-11-20T13:16:54.068953Z', 'started_at': None, 'completed_at': None}
+2025-11-21 14:02:42,931 - agent - INFO - ================================================================================
+2025-11-21 14:02:42,931 - agent - INFO - ✅ 새 Job 수신: 53, 타입: repository_analysis
+2025-11-21 14:02:42,932 - agent - INFO - ================================================================================
+2025-11-21 14:02:42,932 - agent - INFO - Job's relative path: '/home/projects/flask-api' -> Resolved container path: '/home/projects/flask-api'
+2025-11-21 14:02:42,933 - agent - DEBUG - 📊 'repository_analysis' 타입의 작업을 확인했습니다. 경로: /home/projects/flask-api
+2025-11-21 14:02:42,933 - git_analyzer - DEBUG - GitAnalyzer 초기화 시도: /home/projects/flask-api
+2025-11-21 14:02:42,933 - git_analyzer - ERROR - 제공된 경로가 디렉터리가 아님: /home/projects/flask-api
+2025-11-21 14:02:42,934 - agent - ERROR - An unexpected error occurred: '/home/projects/flask-api'는 유효한 디렉터리가 아닙니다.
+Traceback (most recent call last):
+  File "/app/agent.py", line 409, in run_agent
+    job_git_analyzer = GitAnalyzer(repo_path=project_local_path)
+  File "/app/git_analyzer.py", line 22, in __init__
+    raise ValueError(f"'{repo_path}'는 유효한 디렉터리가 아닙니다.")
+ValueError: '/home/projects/flask-api'는 유효한 디렉터리가 아닙니다.
+2025-11-21 14:02:52,936 - urllib3.connectionpool - DEBUG - Starting new HTTP connection (1): django-api:8000
+2025-11-21 14:02:53,022 - urllib3.connectionpool - DEBUG - http://django-api:8000 "POST /api/v1/agent/heartbeat HTTP/1.1" 200 43
+2025-11-21 14:02:53,023 - agent - DEBUG - 📤 Job 요청 중...
+2025-11-21 14:02:53,024 - urllib3.connectionpool - DEBUG - Starting new HTTP connection (1): django-api:8000
+2025-11-21 14:02:53,256 - urllib3.connectionpool - DEBUG - http://django-api:8000 "POST /api/v1/agent/jobs/request HTTP/1.1" 200 686
+2025-11-21 14:02:53,256 - agent - DEBUG -  수신된 JOB 페이로드: {'job_id': 54, 'job_type': 'repository_analysis', 'status': 'assigned', 'payload': {'prompt': 'Scan the entire file tree of the project, ignoring .git, __pycache__, and other common temporary directories.', 'language': 'json', 'project': {'id': 1, 'name': 'Flask API Project', 'local_path': '/home/projects/flask-api', 'remote_url': None}, 'description': 'Scan the entire file tree of the project, ignoring .git, __pycache__, and other common temporary directories.'}, 'project': {'id': 1, 'name': 'Flask API Project', 'local_path': '/home/projects/flask-api', 'remote_url': None, 'created_at': '2025-11-07T12:17:06.510412Z'}, 'created_at': '2025-11-20T13:17:15.512410Z', 'started_at': None, 'completed_at': None}
+2025-11-21 14:02:53,257 - agent - INFO - ================================================================================
+2025-11-21 14:02:53,257 - agent - INFO - ✅ 새 Job 수신: 54, 타입: repository_analysis
+2025-11-21 14:02:53,258 - agent - INFO - ================================================================================
+2025-11-21 14:02:53,258 - agent - INFO - Job's relative path: '/home/projects/flask-api' -> Resolved container path: '/home/projects/flask-api'
+2025-11-21 14:02:53,259 - agent - DEBUG - 📊 'repository_analysis' 타입의 작업을 확인했습니다. 경로: /home/projects/flask-api
+2025-11-21 14:02:53,259 - git_analyzer - DEBUG - GitAnalyzer 초기화 시도: /home/projects/flask-api
+2025-11-21 14:02:53,260 - git_analyzer - ERROR - 제공된 경로가 디렉터리가 아님: /home/projects/flask-api
+2025-11-21 14:02:53,260 - agent - ERROR - An unexpected error occurred: '/home/projects/flask-api'는 유효한 디렉터리가 아닙니다.
+Traceback (most recent call last):
+  File "/app/agent.py", line 409, in run_agent
+    job_git_analyzer = GitAnalyzer(repo_path=project_local_path)
+  File "/app/git_analyzer.py", line 22, in __init__
+    raise ValueError(f"'{repo_path}'는 유효한 디렉터리가 아닙니다.")
+ValueError: '/home/projects/flask-api'는 유효한 디렉터리가 아닙니다.
+2025-11-21 14:03:03,266 - urllib3.connectionpool - DEBUG - Starting new HTTP connection (1): django-api:8000
+2025-11-21 14:03:03,357 - urllib3.connectionpool - DEBUG - http://django-api:8000 "POST /api/v1/agent/heartbeat HTTP/1.1" 200 43
+2025-11-21 14:03:03,357 - agent - DEBUG - 📤 Job 요청 중...
+2025-11-21 14:03:03,359 - urllib3.connectionpool - DEBUG - Starting new HTTP connection (1): django-api:8000
+2025-11-21 14:03:03,573 - urllib3.connectionpool - DEBUG - http://django-api:8000 "POST /api/v1/agent/jobs/request HTTP/1.1" 200 686
+2025-11-21 14:03:03,575 - agent - DEBUG -  수신된 JOB 페이로드: {'job_id': 55, 'job_type': 'repository_analysis', 'status': 'assigned', 'payload': {'prompt': 'Scan the entire file tree of the project, ignoring .git, __pycache__, and other common temporary directories.', 'language': 'json', 'project': {'id': 1, 'name': 'Flask API Project', 'local_path': '/home/projects/flask-api', 'remote_url': None}, 'description': 'Scan the entire file tree of the project, ignoring .git, __pycache__, and other common temporary directories.'}, 'project': {'id': 1, 'name': 'Flask API Project', 'local_path': '/home/projects/flask-api', 'remote_url': None, 'created_at': '2025-11-07T12:17:06.510412Z'}, 'created_at': '2025-11-21T12:12:11.963626Z', 'started_at': None, 'completed_at': None}
+2025-11-21 14:03:03,576 - agent - INFO - ================================================================================
+2025-11-21 14:03:03,576 - agent - INFO - ✅ 새 Job 수신: 55, 타입: repository_analysis
+2025-11-21 14:03:03,577 - agent - INFO - ================================================================================
+2025-11-21 14:03:03,577 - agent - INFO - Job's relative path: '/home/projects/flask-api' -> Resolved container path: '/home/projects/flask-api'
+2025-11-21 14:03:03,578 - agent - DEBUG - 📊 'repository_analysis' 타입의 작업을 확인했습니다. 경로: /home/projects/flask-api
+2025-11-21 14:03:03,578 - git_analyzer - DEBUG - GitAnalyzer 초기화 시도: /home/projects/flask-api
+2025-11-21 14:03:03,579 - git_analyzer - ERROR - 제공된 경로가 디렉터리가 아님: /home/projects/flask-api
+2025-11-21 14:03:03,579 - agent - ERROR - An unexpected error occurred: '/home/projects/flask-api'는 유효한 디렉터리가 아닙니다.
+Traceback (most recent call last):
+  File "/app/agent.py", line 409, in run_agent
+    job_git_analyzer = GitAnalyzer(repo_path=project_local_path)
+  File "/app/git_analyzer.py", line 22, in __init__
+    raise ValueError(f"'{repo_path}'는 유효한 디렉터리가 아닙니다.")
+ValueError: '/home/projects/flask-api'는 유효한 디렉터리가 아닙니다.
+2025-11-21 14:03:13,581 - urllib3.connectionpool - DEBUG - Starting new HTTP connection (1): django-api:8000
+2025-11-21 14:03:13,694 - urllib3.connectionpool - DEBUG - http://django-api:8000 "POST /api/v1/agent/heartbeat HTTP/1.1" 200 43
+2025-11-21 14:03:13,695 - agent - DEBUG - 📤 Job 요청 중...
+2025-11-21 14:03:13,696 - urllib3.connectionpool - DEBUG - Starting new HTTP connection (1): django-api:8000
+2025-11-21 14:03:13,924 - urllib3.connectionpool - DEBUG - http://django-api:8000 "POST /api/v1/agent/jobs/request HTTP/1.1" 200 686
+2025-11-21 14:03:13,924 - agent - DEBUG -  수신된 JOB 페이로드: {'job_id': 57, 'job_type': 'repository_analysis', 'status': 'assigned', 'payload': {'prompt': 'Scan the entire file tree of the project, ignoring .git, __pycache__, and other common temporary directories.', 'language': 'json', 'project': {'id': 1, 'name': 'Flask API Project', 'local_path': '/home/projects/flask-api', 'remote_url': None}, 'description': 'Scan the entire file tree of the project, ignoring .git, __pycache__, and other common temporary directories.'}, 'project': {'id': 1, 'name': 'Flask API Project', 'local_path': '/home/projects/flask-api', 'remote_url': None, 'created_at': '2025-11-07T12:17:06.510412Z'}, 'created_at': '2025-11-21T13:03:42.437408Z', 'started_at': None, 'completed_at': None}
+2025-11-21 14:03:13,925 - agent - INFO - ================================================================================
+2025-11-21 14:03:13,925 - agent - INFO - ✅ 새 Job 수신: 57, 타입: repository_analysis
+2025-11-21 14:03:13,926 - agent - INFO - ================================================================================
+2025-11-21 14:03:13,926 - agent - INFO - Job's relative path: '/home/projects/flask-api' -> Resolved container path: '/home/projects/flask-api'
+2025-11-21 14:03:13,926 - agent - DEBUG - 📊 'repository_analysis' 타입의 작업을 확인했습니다. 경로: /home/projects/flask-api
+2025-11-21 14:03:13,927 - git_analyzer - DEBUG - GitAnalyzer 초기화 시도: /home/projects/flask-api
+2025-11-21 14:03:13,927 - git_analyzer - ERROR - 제공된 경로가 디렉터리가 아님: /home/projects/flask-api
+2025-11-21 14:03:13,927 - agent - ERROR - An unexpected error occurred: '/home/projects/flask-api'는 유효한 디렉터리가 아닙니다.
+Traceback (most recent call last):
+  File "/app/agent.py", line 409, in run_agent
+    job_git_analyzer = GitAnalyzer(repo_path=project_local_path)
+  File "/app/git_analyzer.py", line 22, in __init__
+    raise ValueError(f"'{repo_path}'는 유효한 디렉터리가 아닙니다.")
+ValueError: '/home/projects/flask-api'는 유효한 디렉터리가 아닙니다.
+2025-11-21 14:03:23,930 - urllib3.connectionpool - DEBUG - Starting new HTTP connection (1): django-api:8000
+2025-11-21 14:03:23,999 - urllib3.connectionpool - DEBUG - http://django-api:8000 "POST /api/v1/agent/heartbeat HTTP/1.1" 200 43
+2025-11-21 14:03:24,000 - agent - DEBUG - 📤 Job 요청 중...
+2025-11-21 14:03:24,001 - urllib3.connectionpool - DEBUG - Starting new HTTP connection (1): django-api:8000
+2025-11-21 14:03:24,200 - urllib3.connectionpool - DEBUG - http://django-api:8000 "POST /api/v1/agent/jobs/request HTTP/1.1" 200 686
+2025-11-21 14:03:24,200 - agent - DEBUG -  수신된 JOB 페이로드: {'job_id': 59, 'job_type': 'repository_analysis', 'status': 'assigned', 'payload': {'prompt': 'Scan the entire file tree of the project, ignoring .git, __pycache__, and other common temporary directories.', 'language': 'json', 'project': {'id': 1, 'name': 'Flask API Project', 'local_path': '/home/projects/flask-api', 'remote_url': None}, 'description': 'Scan the entire file tree of the project, ignoring .git, __pycache__, and other common temporary directories.'}, 'project': {'id': 1, 'name': 'Flask API Project', 'local_path': '/home/projects/flask-api', 'remote_url': None, 'created_at': '2025-11-07T12:17:06.510412Z'}, 'created_at': '2025-11-21T13:28:30.084063Z', 'started_at': None, 'completed_at': None}
+2025-11-21 14:03:24,201 - agent - INFO - ================================================================================
+2025-11-21 14:03:24,201 - agent - INFO - ✅ 새 Job 수신: 59, 타입: repository_analysis
+2025-11-21 14:03:24,202 - agent - INFO - ================================================================================
+2025-11-21 14:03:24,202 - agent - INFO - Job's relative path: '/home/projects/flask-api' -> Resolved container path: '/home/projects/flask-api'
+2025-11-21 14:03:24,202 - agent - DEBUG - 📊 'repository_analysis' 타입의 작업을 확인했습니다. 경로: /home/projects/flask-api
+2025-11-21 14:03:24,203 - git_analyzer - DEBUG - GitAnalyzer 초기화 시도: /home/projects/flask-api
+2025-11-21 14:03:24,203 - git_analyzer - ERROR - 제공된 경로가 디렉터리가 아님: /home/projects/flask-api
+2025-11-21 14:03:24,203 - agent - ERROR - An unexpected error occurred: '/home/projects/flask-api'는 유효한 디렉터리가 아닙니다.
+Traceback (most recent call last):
+  File "/app/agent.py", line 409, in run_agent
+    job_git_analyzer = GitAnalyzer(repo_path=project_local_path)
+  File "/app/git_analyzer.py", line 22, in __init__
+    raise ValueError(f"'{repo_path}'는 유효한 디렉터리가 아닙니다.")
+ValueError: '/home/projects/flask-api'는 유효한 디렉터리가 아닙니다.
+2025-11-21 14:03:34,206 - urllib3.connectionpool - DEBUG - Starting new HTTP connection (1): django-api:8000
+2025-11-21 14:03:34,285 - urllib3.connectionpool - DEBUG - http://django-api:8000 "POST /api/v1/agent/heartbeat HTTP/1.1" 200 43
+2025-11-21 14:03:34,285 - agent - DEBUG - 📤 Job 요청 중...
+2025-11-21 14:03:34,286 - urllib3.connectionpool - DEBUG - Starting new HTTP connection (1): django-api:8000
+2025-11-21 14:03:34,479 - urllib3.connectionpool - DEBUG - http://django-api:8000 "POST /api/v1/agent/jobs/request HTTP/1.1" 200 686
+2025-11-21 14:03:34,480 - agent - DEBUG -  수신된 JOB 페이로드: {'job_id': 62, 'job_type': 'repository_analysis', 'status': 'assigned', 'payload': {'prompt': 'Scan the entire file tree of the project, ignoring .git, __pycache__, and other common temporary directories.', 'language': 'json', 'project': {'id': 1, 'name': 'Flask API Project', 'local_path': '/home/projects/flask-api', 'remote_url': None}, 'description': 'Scan the entire file tree of the project, ignoring .git, __pycache__, and other common temporary directories.'}, 'project': {'id': 1, 'name': 'Flask API Project', 'local_path': '/home/projects/flask-api', 'remote_url': None, 'created_at': '2025-11-07T12:17:06.510412Z'}, 'created_at': '2025-11-21T14:03:15.445328Z', 'started_at': None, 'completed_at': None}
+2025-11-21 14:03:34,480 - agent - INFO - ================================================================================
+2025-11-21 14:03:34,481 - agent - INFO - ✅ 새 Job 수신: 62, 타입: repository_analysis
+2025-11-21 14:03:34,481 - agent - INFO - ================================================================================
+2025-11-21 14:03:34,482 - agent - INFO - Job's relative path: '/home/projects/flask-api' -> Resolved container path: '/home/projects/flask-api'
+2025-11-21 14:03:34,482 - agent - DEBUG - 📊 'repository_analysis' 타입의 작업을 확인했습니다. 경로: /home/projects/flask-api
+2025-11-21 14:03:34,482 - git_analyzer - DEBUG - GitAnalyzer 초기화 시도: /home/projects/flask-api
+2025-11-21 14:03:34,482 - git_analyzer - ERROR - 제공된 경로가 디렉터리가 아님: /home/projects/flask-api
+2025-11-21 14:03:34,483 - agent - ERROR - An unexpected error occurred: '/home/projects/flask-api'는 유효한 디렉터리가 아닙니다.
+Traceback (most recent call last):
+  File "/app/agent.py", line 409, in run_agent
+    job_git_analyzer = GitAnalyzer(repo_path=project_local_path)
+  File "/app/git_analyzer.py", line 22, in __init__
+    raise ValueError(f"'{repo_path}'는 유효한 디렉터리가 아닙니다.")
+ValueError: '/home/projects/flask-api'는 유효한 디렉터리가 아닙니다.
+2025-11-21 14:03:44,484 - urllib3.connectionpool - DEBUG - Starting new HTTP connection (1): django-api:8000
+2025-11-21 14:03:44,559 - urllib3.connectionpool - DEBUG - http://django-api:8000 "POST /api/v1/agent/heartbeat HTTP/1.1" 200 43
+2025-11-21 14:03:44,559 - agent - DEBUG - 📤 Job 요청 중...
+2025-11-21 14:03:44,560 - urllib3.connectionpool - DEBUG - Starting new HTTP connection (1): django-api:8000
+2025-11-21 14:03:44,624 - urllib3.connectionpool - DEBUG - http://django-api:8000 "POST /api/v1/agent/jobs/request HTTP/1.1" 204 0
+2025-11-21 14:03:44,624 - agent - DEBUG - ⏳ Job 없음. 대기 중...
+2025-11-21 14:03:54,626 - urllib3.connectionpool - DEBUG - Starting new HTTP connection (1): django-api:8000
+2025-11-21 14:03:54,693 - urllib3.connectionpool - DEBUG - http://django-api:8000 "POST /api/v1/agent/heartbeat HTTP/1.1" 200 43
+2025-11-21 14:03:54,694 - agent - DEBUG - 📤 Job 요청 중...
+2025-11-21 14:03:54,694 - urllib3.connectionpool - DEBUG - Starting new HTTP connection (1): django-api:8000
+2025-11-21 14:03:54,766 - urllib3.connectionpool - DEBUG - http://django-api:8000 "POST /api/v1/agent/jobs/request HTTP/1.1" 204 0
+2025-11-21 14:03:54,766 - agent - DEBUG - ⏳ Job 없음. 대기 중...
+2025-11-21 14:04:04,767 - urllib3.connectionpool - DEBUG - Starting new HTTP connection (1): django-api:8000
+2025-11-21 14:04:04,844 - urllib3.connectionpool - DEBUG - http://django-api:8000 "POST /api/v1/agent/heartbeat HTTP/1.1" 200 43
+2025-11-21 14:04:04,844 - agent - DEBUG - 📤 Job 요청 중...
+2025-11-21 14:04:04,845 - urllib3.connectionpool - DEBUG - Starting new HTTP connection (1): django-api:8000
+2025-11-21 14:04:04,917 - urllib3.connectionpool - DEBUG - http://django-api:8000 "POST /api/v1/agent/jobs/request HTTP/1.1" 204 0
+2025-11-21 14:04:04,917 - agent - DEBUG - ⏳ Job 없음. 대기 중...
+2025-11-21 14:04:14,917 - urllib3.connectionpool - DEBUG - Starting new HTTP connection (1): django-api:8000
+2025-11-21 14:04:15,001 - urllib3.connectionpool - DEBUG - http://django-api:8000 "POST /api/v1/agent/heartbeat HTTP/1.1" 200 43
+2025-11-21 14:04:15,002 - agent - DEBUG - 📤 Job 요청 중...
+2025-11-21 14:04:15,003 - urllib3.connectionpool - DEBUG - Starting new HTTP connection (1): django-api:8000
+2025-11-21 14:04:15,066 - urllib3.connectionpool - DEBUG - http://django-api:8000 "POST /api/v1/agent/jobs/request HTTP/1.1" 204 0
+2025-11-21 14:04:15,066 - agent - DEBUG - ⏳ Job 없음. 대기 중...
+2025-11-21 14:04:25,067 - urllib3.connectionpool - DEBUG - Starting new HTTP connection (1): django-api:8000
+2025-11-21 14:04:25,143 - urllib3.connectionpool - DEBUG - http://django-api:8000 "POST /api/v1/agent/heartbeat HTTP/1.1" 200 43
+2025-11-21 14:04:25,144 - agent - DEBUG - 📤 Job 요청 중...
+2025-11-21 14:04:25,145 - urllib3.connectionpool - DEBUG - Starting new HTTP connection (1): django-api:8000
+2025-11-21 14:04:25,216 - urllib3.connectionpool - DEBUG - http://django-api:8000 "POST /api/v1/agent/jobs/request HTTP/1.1" 204 0
+2025-11-21 14:04:25,217 - agent - DEBUG - ⏳ Job 없음. 대기 중...
+2025-11-21 14:04:35,218 - urllib3.connectionpool - DEBUG - Starting new HTTP connection (1): django-api:8000
+2025-11-21 14:04:35,302 - urllib3.connectionpool - DEBUG - http://django-api:8000 "POST /api/v1/agent/heartbeat HTTP/1.1" 200 43
+2025-11-21 14:04:35,303 - agent - DEBUG - 📤 Job 요청 중...
+2025-11-21 14:04:35,304 - urllib3.connectionpool - DEBUG - Starting new HTTP connection (1): django-api:8000
+2025-11-21 14:04:35,374 - urllib3.connectionpool - DEBUG - http://django-api:8000 "POST /api/v1/agent/jobs/request HTTP/1.1" 204 0
+2025-11-21 14:04:35,375 - agent - DEBUG - ⏳ Job 없음. 대기 중...
+2025-11-21 14:04:45,375 - urllib3.connectionpool - DEBUG - Starting new HTTP connection (1): django-api:8000
+2025-11-21 14:04:45,452 - urllib3.connectionpool - DEBUG - http://django-api:8000 "POST /api/v1/agent/heartbeat HTTP/1.1" 200 43
+2025-11-21 14:04:45,452 - agent - DEBUG - 📤 Job 요청 중...
+2025-11-21 14:04:45,453 - urllib3.connectionpool - DEBUG - Starting new HTTP connection (1): django-api:8000
+2025-11-21 14:04:45,533 - urllib3.connectionpool - DEBUG - http://django-api:8000 "POST /api/v1/agent/jobs/request HTTP/1.1" 204 0
+2025-11-21 14:04:45,533 - agent - DEBUG - ⏳ Job 없음. 대기 중...
+2025-11-21 14:04:55,534 - urllib3.connectionpool - DEBUG - Starting new HTTP connection (1): django-api:8000
+2025-11-21 14:04:55,619 - urllib3.connectionpool - DEBUG - http://django-api:8000 "POST /api/v1/agent/heartbeat HTTP/1.1" 200 43
+2025-11-21 14:04:55,620 - agent - DEBUG - 📤 Job 요청 중...
+2025-11-21 14:04:55,621 - urllib3.connectionpool - DEBUG - Starting new HTTP connection (1): django-api:8000
+2025-11-21 14:04:55,717 - urllib3.connectionpool - DEBUG - http://django-api:8000 "POST /api/v1/agent/jobs/request HTTP/1.1" 204 0
+2025-11-21 14:04:55,717 - agent - DEBUG - ⏳ Job 없음. 대기 중...
+2025-11-21 14:05:05,719 - urllib3.connectionpool - DEBUG - Starting new HTTP connection (1): django-api:8000
+2025-11-21 14:05:05,803 - urllib3.connectionpool - DEBUG - http://django-api:8000 "POST /api/v1/agent/heartbeat HTTP/1.1" 200 43
+2025-11-21 14:05:05,803 - agent - DEBUG - 📤 Job 요청 중...
+2025-11-21 14:05:05,804 - urllib3.connectionpool - DEBUG - Starting new HTTP connection (1): django-api:8000
+2025-11-21 14:05:05,875 - urllib3.connectionpool - DEBUG - http://django-api:8000 "POST /api/v1/agent/jobs/request HTTP/1.1" 204 0
+2025-11-21 14:05:05,875 - agent - DEBUG - ⏳ Job 없음. 대기 중...
+2025-11-21 14:05:15,875 - urllib3.connectionpool - DEBUG - Starting new HTTP connection (1): django-api:8000
+2025-11-21 14:05:15,952 - urllib3.connectionpool - DEBUG - http://django-api:8000 "POST /api/v1/agent/heartbeat HTTP/1.1" 200 43
+2025-11-21 14:05:15,952 - agent - DEBUG - 📤 Job 요청 중...
+2025-11-21 14:05:15,953 - urllib3.connectionpool - DEBUG - Starting new HTTP connection (1): django-api:8000
+2025-11-21 14:05:16,024 - urllib3.connectionpool - DEBUG - http://django-api:8000 "POST /api/v1/agent/jobs/request HTTP/1.1" 204 0
+2025-11-21 14:05:16,025 - agent - DEBUG - ⏳ Job 없음. 대기 중...
+2025-11-21 14:05:26,029 - urllib3.connectionpool - DEBUG - Starting new HTTP connection (1): django-api:8000
+2025-11-21 14:05:26,103 - urllib3.connectionpool - DEBUG - http://django-api:8000 "POST /api/v1/agent/heartbeat HTTP/1.1" 200 43
+2025-11-21 14:05:26,104 - agent - DEBUG - 📤 Job 요청 중...
+2025-11-21 14:05:26,105 - urllib3.connectionpool - DEBUG - Starting new HTTP connection (1): django-api:8000
+2025-11-21 14:05:26,185 - urllib3.connectionpool - DEBUG - http://django-api:8000 "POST /api/v1/agent/jobs/request HTTP/1.1" 204 0
+2025-11-21 14:05:26,185 - agent - DEBUG - ⏳ Job 없음. 대기 중...
+2025-11-21 14:05:36,185 - urllib3.connectionpool - DEBUG - Starting new HTTP connection (1): django-api:8000
+2025-11-21 14:05:36,270 - urllib3.connectionpool - DEBUG - http://django-api:8000 "POST /api/v1/agent/heartbeat HTTP/1.1" 200 43
+2025-11-21 14:05:36,270 - agent - DEBUG - 📤 Job 요청 중...
+2025-11-21 14:05:36,271 - urllib3.connectionpool - DEBUG - Starting new HTTP connection (1): django-api:8000
+2025-11-21 14:05:36,351 - urllib3.connectionpool - DEBUG - http://django-api:8000 "POST /api/v1/agent/jobs/request HTTP/1.1" 204 0
+2025-11-21 14:05:36,351 - agent - DEBUG - ⏳ Job 없음. 대기 중...
+2025-11-21 14:05:46,353 - urllib3.connectionpool - DEBUG - Starting new HTTP connection (1): django-api:8000
+2025-11-21 14:05:46,437 - urllib3.connectionpool - DEBUG - http://django-api:8000 "POST /api/v1/agent/heartbeat HTTP/1.1" 200 43
+2025-11-21 14:05:46,437 - agent - DEBUG - 📤 Job 요청 중...
+2025-11-21 14:05:46,438 - urllib3.connectionpool - DEBUG - Starting new HTTP connection (1): django-api:8000
+2025-11-21 14:05:46,509 - urllib3.connectionpool - DEBUG - http://django-api:8000 "POST /api/v1/agent/jobs/request HTTP/1.1" 204 0
+2025-11-21 14:05:46,509 - agent - DEBUG - ⏳ Job 없음. 대기 중...
+2025-11-21 14:05:56,511 - urllib3.connectionpool - DEBUG - Starting new HTTP connection (1): django-api:8000
+2025-11-21 14:05:56,605 - urllib3.connectionpool - DEBUG - http://django-api:8000 "POST /api/v1/agent/heartbeat HTTP/1.1" 200 43
+2025-11-21 14:05:56,605 - agent - DEBUG - 📤 Job 요청 중...
+2025-11-21 14:05:56,606 - urllib3.connectionpool - DEBUG - Starting new HTTP connection (1): django-api:8000
+2025-11-21 14:05:56,686 - urllib3.connectionpool - DEBUG - http://django-api:8000 "POST /api/v1/agent/jobs/request HTTP/1.1" 204 0
+2025-11-21 14:05:56,686 - agent - DEBUG - ⏳ Job 없음. 대기 중...
+2025-11-21 14:06:06,686 - urllib3.connectionpool - DEBUG - Starting new HTTP connection (1): django-api:8000
+2025-11-21 14:06:07,220 - urllib3.connectionpool - DEBUG - http://django-api:8000 "POST /api/v1/agent/heartbeat HTTP/1.1" 200 43
+2025-11-21 14:06:07,220 - agent - DEBUG - 📤 Job 요청 중...
+2025-11-21 14:06:07,221 - urllib3.connectionpool - DEBUG - Starting new HTTP connection (1): django-api:8000
+2025-11-21 14:06:07,291 - urllib3.connectionpool - DEBUG - http://django-api:8000 "POST /api/v1/agent/jobs/request HTTP/1.1" 204 0
+2025-11-21 14:06:07,292 - agent - DEBUG - ⏳ Job 없음. 대기 중...
+2025-11-21 14:06:17,293 - urllib3.connectionpool - DEBUG - Starting new HTTP connection (1): django-api:8000
+2025-11-21 14:06:17,429 - urllib3.connectionpool - DEBUG - http://django-api:8000 "POST /api/v1/agent/heartbeat HTTP/1.1" 200 43
+2025-11-21 14:06:17,430 - agent - DEBUG - 📤 Job 요청 중...
+2025-11-21 14:06:17,430 - urllib3.connectionpool - DEBUG - Starting new HTTP connection (1): django-api:8000
+2025-11-21 14:06:17,500 - urllib3.connectionpool - DEBUG - http://django-api:8000 "POST /api/v1/agent/jobs/request HTTP/1.1" 204 0
+2025-11-21 14:06:17,501 - agent - DEBUG - ⏳ Job 없음. 대기 중...
+2025-11-21 14:06:27,503 - urllib3.connectionpool - DEBUG - Starting new HTTP connection (1): django-api:8000
+2025-11-21 14:06:27,630 - urllib3.connectionpool - DEBUG - http://django-api:8000 "POST /api/v1/agent/heartbeat HTTP/1.1" 200 43
+2025-11-21 14:06:27,631 - agent - DEBUG - 📤 Job 요청 중...
+2025-11-21 14:06:27,632 - urllib3.connectionpool - DEBUG - Starting new HTTP connection (1): django-api:8000
+2025-11-21 14:06:27,710 - urllib3.connectionpool - DEBUG - http://django-api:8000 "POST /api/v1/agent/jobs/request HTTP/1.1" 204 0
+2025-11-21 14:06:27,711 - agent - DEBUG - ⏳ Job 없음. 대기 중...
+2025-11-21 14:06:37,711 - urllib3.connectionpool - DEBUG - Starting new HTTP connection (1): django-api:8000
+2025-11-21 14:06:37,795 - urllib3.connectionpool - DEBUG - http://django-api:8000 "POST /api/v1/agent/heartbeat HTTP/1.1" 200 43
+2025-11-21 14:06:37,796 - agent - DEBUG - 📤 Job 요청 중...
+2025-11-21 14:06:37,796 - urllib3.connectionpool - DEBUG - Starting new HTTP connection (1): django-api:8000
+2025-11-21 14:06:37,876 - urllib3.connectionpool - DEBUG - http://django-api:8000 "POST /api/v1/agent/jobs/request HTTP/1.1" 204 0
+2025-11-21 14:06:37,877 - agent - DEBUG - ⏳ Job 없음. 대기 중...
+2025-11-21 14:06:47,878 - urllib3.connectionpool - DEBUG - Starting new HTTP connection (1): django-api:8000
+2025-11-21 14:06:47,996 - urllib3.connectionpool - DEBUG - http://django-api:8000 "POST /api/v1/agent/heartbeat HTTP/1.1" 200 43
+2025-11-21 14:06:47,996 - agent - DEBUG - 📤 Job 요청 중...
+2025-11-21 14:06:47,997 - urllib3.connectionpool - DEBUG - Starting new HTTP connection (1): django-api:8000
+2025-11-21 14:06:48,067 - urllib3.connectionpool - DEBUG - http://django-api:8000 "POST /api/v1/agent/jobs/request HTTP/1.1" 204 0
+2025-11-21 14:06:48,067 - agent - DEBUG - ⏳ Job 없음. 대기 중...
+2025-11-21 14:06:58,069 - urllib3.connectionpool - DEBUG - Starting new HTTP connection (1): django-api:8000
+2025-11-21 14:06:58,171 - urllib3.connectionpool - DEBUG - http://django-api:8000 "POST /api/v1/agent/heartbeat HTTP/1.1" 200 43
+2025-11-21 14:06:58,171 - agent - DEBUG - 📤 Job 요청 중...
+2025-11-21 14:06:58,172 - urllib3.connectionpool - DEBUG - Starting new HTTP connection (1): django-api:8000
+2025-11-21 14:06:58,242 - urllib3.connectionpool - DEBUG - http://django-api:8000 "POST /api/v1/agent/jobs/request HTTP/1.1" 204 0
+2025-11-21 14:06:58,242 - agent - DEBUG - ⏳ Job 없음. 대기 중...
+2025-11-21 14:07:08,242 - urllib3.connectionpool - DEBUG - Starting new HTTP connection (1): django-api:8000
+2025-11-21 14:07:08,345 - urllib3.connectionpool - DEBUG - http://django-api:8000 "POST /api/v1/agent/heartbeat HTTP/1.1" 200 43
+2025-11-21 14:07:08,346 - agent - DEBUG - 📤 Job 요청 중...
+2025-11-21 14:07:08,347 - urllib3.connectionpool - DEBUG - Starting new HTTP connection (1): django-api:8000
+2025-11-21 14:07:08,428 - urllib3.connectionpool - DEBUG - http://django-api:8000 "POST /api/v1/agent/jobs/request HTTP/1.1" 204 0
+2025-11-21 14:07:08,428 - agent - DEBUG - ⏳ Job 없음. 대기 중...
+2025-11-21 14:07:18,429 - urllib3.connectionpool - DEBUG - Starting new HTTP connection (1): django-api:8000
+2025-11-21 14:07:18,521 - urllib3.connectionpool - DEBUG - http://django-api:8000 "POST /api/v1/agent/heartbeat HTTP/1.1" 200 43
+2025-11-21 14:07:18,521 - agent - DEBUG - 📤 Job 요청 중...
+2025-11-21 14:07:18,522 - urllib3.connectionpool - DEBUG - Starting new HTTP connection (1): django-api:8000
+2025-11-21 14:07:18,592 - urllib3.connectionpool - DEBUG - http://django-api:8000 "POST /api/v1/agent/jobs/request HTTP/1.1" 204 0
+2025-11-21 14:07:18,592 - agent - DEBUG - ⏳ Job 없음. 대기 중...
+2025-11-21 14:07:28,593 - urllib3.connectionpool - DEBUG - Starting new HTTP connection (1): django-api:8000
+2025-11-21 14:07:28,722 - urllib3.connectionpool - DEBUG - http://django-api:8000 "POST /api/v1/agent/heartbeat HTTP/1.1" 200 43
+2025-11-21 14:07:28,722 - agent - DEBUG - 📤 Job 요청 중...
+2025-11-21 14:07:28,723 - urllib3.connectionpool - DEBUG - Starting new HTTP connection (1): django-api:8000
+2025-11-21 14:07:28,796 - urllib3.connectionpool - DEBUG - http://django-api:8000 "POST /api/v1/agent/jobs/request HTTP/1.1" 204 0
+2025-11-21 14:07:28,796 - agent - DEBUG - ⏳ Job 없음. 대기 중...

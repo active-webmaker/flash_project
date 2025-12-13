@@ -1,0 +1,38 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(dir:*)",
+      "Bash(test:*)",
+      "Bash(cat:*)",
+      "Bash(find:*)",
+      "Bash(tree:*)",
+      "Bash(sed:*)",
+      "Bash(python manage.py:*)",
+      "Bash(pip install:*)",
+      "Bash(curl:*)",
+      "Bash(node --version:*)",
+      "Bash(npm --version:*)",
+      "Bash(npm install)",
+      "Bash(npm install:*)",
+      "Bash(python populate_test_data.py:*)",
+      "Bash(python test_gamification.py:*)",
+      "Bash(python:*)",
+      "Bash(docker:*)",
+      "Bash(docker-compose:*)",
+      "Bash(ACCESS_TOKEN=\"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzYyNTE1OTA1LCJpYXQiOjE3NjI1MTU2MDUsImp0aSI6IjA1MWYwNmQwN2M4NjQzNzNhYTdhYzg0YmNkMjY5MzM0IiwidXNlcl9pZCI6IjYifQ.SQaON3G8FIUc3L0Yltf5f8SF3JRU5DIYY8abrhG-O_0\")",
+      "Bash(npm run dev:*)",
+      "Bash(lsof:*)",
+      "Bash(netstat:*)",
+      "Bash(taskkill /PID 44876 /F)",
+      "Bash(powershell -Command \"Stop-Process -Id 44876 -Force -ErrorAction SilentlyContinue; Start-Sleep -Milliseconds 500; Write-Host ''Process killed''\")",
+      "Bash(ACCESS_TOKEN=\"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzYyNTE2NjQ1LCJpYXQiOjE3NjI1MTYzNDUsImp0aSI6IjdjMzBjMzQ0NTZiODQ2NTdiNDAzOWI4Mzg4YTExNmRlIiwidXNlcl9pZCI6IjYifQ.p_nv-iHwmtiMVsQ9WO7GIwq46N05UtcBWqcoZK6cHx4\" curl -s -X GET http://localhost:8000/api/v1/projects -H \"Authorization: Bearer $ACCESS_TOKEN\" -H \"Content-Type: application/json\")",
+      "Bash(ACCESS_TOKEN=\"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzYyNTE2NjQ1LCJpYXQiOjE3NjI1MTYzNDUsImp0aSI6IjdjMzBjMzQ0NTZiODQ2NTdiNDAzOWI4Mzg4YTExNmRlIiwidXNlcl9pZCI6IjYifQ.p_nv-iHwmtiMVsQ9WO7GIwq46N05UtcBWqcoZK6cHx4\")",
+      "Bash(source /tmp/token.sh)",
+      "Bash(/tmp/login_resp.json)",
+      "Bash(pkill:*)",
+      "Bash(xargs ls:*)"
+    ],
+    "deny": [],
+    "ask": []
+  }
+}

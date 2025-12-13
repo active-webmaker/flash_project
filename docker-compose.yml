@@ -1,0 +1,113 @@
+services:
+  db:
+    image: postgres:15-alpine
+    container_name: flash-db
+    environment:
+      POSTGRES_DB: ${DB_NAME:-flash}
+      POSTGRES_USER: ${DB_USER:-flash}
+      POSTGRES_PASSWORD: ${DB_PASSWORD:-flash_password_123}
+    ports:
+      - "${DB_PORT:-5432}:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - flash-network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${DB_USER:-flash}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    restart: unless-stopped
+
+  django-api:
+    build:
+      context: ./Django_Server
+      dockerfile: Dockerfile
+    container_name: flash-django-api
+    environment:
+      DEBUG: "False"
+      SECRET_KEY: ${SECRET_KEY:-django-insecure-dev-key-change-in-production}
+      ALLOWED_HOSTS: localhost,127.0.0.1,django-api,*.ngrok.io
+      DATABASE_URL: postgresql://${DB_USER:-flash}:${DB_PASSWORD:-flash_password_123}@db:5432/${DB_NAME:-flash}
+      API_BASE_URL: http://django-api:8000/api/v1
+      CORS_ALLOWED_ORIGINS: http://localhost:8501,http://localhost:8000,http://127.0.0.1:8501
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./Django_Server:/app
+      - django_static:/app/staticfiles
+    depends_on:
+      db:
+        condition: service_healthy
+    networks:
+      - flash-network
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/api/v1/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+      start_period: 40s
+    restart: unless-stopped
+    command: |
+      sh -c "python manage.py migrate &&
+             gunicorn flash_server.wsgi:application --bind 0.0.0.0:8000 --workers 4 --worker-class sync --timeout 120"
+
+  streamlit-frontend:
+    build:
+      context: ./streamlit_frontend
+      dockerfile: Dockerfile
+    container_name: flash-streamlit-frontend
+    environment:
+      STREAMLIT_API_BASE_URL: http://django-api:8000
+      STREAMLIT_LANGCHAIN_BASE_URL: http://host.docker.internal:8001
+    ports:
+      - "8501:8501"
+    depends_on:
+      django-api:
+        condition: service_healthy
+    networks:
+      - flash-network
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8501/_stcore/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 10s
+    restart: unless-stopped
+
+  agent-backend:
+    build:
+      context: ./desktop_backend
+      dockerfile: Dockerfile
+    container_name: flash-agent-backend
+    environment:
+      API_BASE_URL: http://django-api:8000/api/v1
+      LOCAL_LLM_URL: ${LOCAL_LLM_URL:-http://host.docker.internal:8008/v1}
+      AGENT_ID: ${AGENT_ID:-agent-docker}
+      AGENT_VERSION: ${AGENT_VERSION:-v1.0.0}
+      REPO_PATH: /app/temp_test_repo
+      HOST_PROJECT_ROOT: /app
+    ports:
+      - "5000:5000"
+    volumes:
+      - ./desktop_backend:/app
+      - ./log:/app/log
+      - ./temp_test_repo:/app/temp_test_repo
+    depends_on:
+      django-api:
+        condition: service_healthy
+    networks:
+      - flash-network
+    restart: unless-stopped
+
+networks:
+  flash-network:
+    driver: bridge
+
+volumes:
+  postgres_data:
+    driver: local
+  django_static:
+    driver: local
+  agent_data:
+    driver: local

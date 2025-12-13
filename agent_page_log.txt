@@ -1,0 +1,25 @@
+[콘솔 로그]
+🎵 Component mounted - attempting audio init
+page-e2d02469d1110821.js:1 🔊 AudioContext created, state: suspended
+page-e2d02469d1110821.js:1  The AudioContext was not allowed to start. It must be resumed (or created) after a user gesture on the page.
+r @ page-e2d02469d1110821.js:1
+api/auth/session:1   Failed to load resource: the server responded with a status of 500 (Internal Server Error)
+489-6b36f59ada5cc3cb.js:1  [next-auth][error][CLIENT_FETCH_ERROR] 
+https://next-auth.js.org/errors#client_fetch_error There is a problem with the server configuration. Check the server logs for more information. Object
+error @ 489-6b36f59ada5cc3cb.js:1
+api/auth/_log:1   Failed to load resource: the server responded with a status of 500 (Internal Server Error)
+_vercel/insights/script.js:1   Failed to load resource: the server responded with a status of 404 (Not Found)
+layout-52e368d61386e4fd.js:1 [Vercel Web Analytics] Failed to load script from /_vercel/insights/script.js. Be sure to enable Web Analytics for your project and deploy again. See https://vercel.com/docs/analytics/quickstart for more information.
+page-e2d02469d1110821.js:1  The AudioContext was not allowed to start. It must be resumed (or created) after a user gesture on the page.
+(anonymous) @ page-e2d02469d1110821.js:1
+page-e2d02469d1110821.js:1 👆 User interaction detected - trying to enable audio
+page-e2d02469d1110821.js:1 🧹 Cleanup - keeping AudioContext alive
+page-e2d02469d1110821.js:1 ▶️ AudioContext resumed
+page-e2d02469d1110821.js:1 ✅ Audio fully enabled! State: running
+page-e2d02469d1110821.js:1 ▶️ AudioContext resumed
+page-e2d02469d1110821.js:1 ✅ Audio fully enabled! State: running
+[NEW] Explain Console errors by using Copilot in Edge: click
+         
+         to explain an error. 
+        Learn more
+        Don't show again

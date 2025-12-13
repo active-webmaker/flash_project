@@ -1,0 +1,6 @@
+[server]
+headless = true
+enableXsrfProtection = false
+port = 8501
+address = "0.0.0.0"
+STREAMLIT_LANGCHAIN_BASE_URL = "http://localhost:8001"
