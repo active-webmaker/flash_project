@@ -1,0 +1,928 @@
+openapi: 3.0.3
+info:
+  title: Flash AI Coding Agent API
+  version: "1.0.0"
+  description: >
+    OpenAPI specification generated from project docs (README.md, docs/Flash_API_guide.md, docs/Flash_API_list.csv).
+servers:
+  - url: http://localhost:8000/api/v1
+    description: Local API server (HTTP)
+  - url: https://localhost/api/v1
+    description: Local API server (HTTPS)
+
+security:
+  - bearerAuth: []
+
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+
+  schemas:
+    Error:
+      type: object
+      properties:
+        detail:
+          type: string
+    Token:
+      type: object
+      properties:
+        access:
+          type: string
+        refresh:
+          type: string
+    User:
+      type: object
+      properties:
+        id:
+          type: integer
+        username:
+          type: string
+        email:
+          type: string
+        display_name:
+          type: string
+    Health:
+      type: object
+      properties:
+        status:
+          type: string
+    Project:
+      type: object
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+        local_path:
+          type: string
+        remote_url:
+          type: string
+        created_at:
+          type: string
+          format: date-time
+    Job:
+      type: object
+      properties:
+        id:
+          type: integer
+        agent:
+          type: string
+          nullable: true
+        project:
+          type: integer
+          nullable: true
+        status:
+          type: string
+          enum: [pending, assigned, running, success, failed]
+        job_type:
+          type: string
+        payload:
+          type: object
+        assigned_at:
+          type: string
+          format: date-time
+          nullable: true
+        summary:
+          type: string
+          nullable: true
+        final_result_url:
+          type: string
+          format: uri
+          nullable: true
+        error_message:
+          type: string
+          nullable: true
+        progress_log:
+          type: array
+          items:
+            type: object
+        created_at:
+          type: string
+          format: date-time
+        started_at:
+          type: string
+          format: date-time
+          nullable: true
+        completed_at:
+          type: string
+          format: date-time
+          nullable: true
+    AgentJobAssignment:
+      type: object
+      properties:
+        job_id:
+          type: integer
+        job_type:
+          type: string
+        status:
+          type: string
+        payload:
+          type: object
+        project:
+          $ref: '#/components/schemas/Project'
+        created_at:
+          type: string
+          format: date-time
+        started_at:
+          type: string
+          format: date-time
+          nullable: true
+        completed_at:
+          type: string
+          format: date-time
+          nullable: true
+    ToolCallback:
+      type: object
+      properties:
+        run_id:
+          type: string
+        tool_name:
+          type: string
+        tool_input:
+          type: object
+        tool_output:
+          type: object
+          nullable: true
+    TelemetryMetric:
+      type: object
+      properties:
+        name:
+          type: string
+        value:
+          type: number
+        model:
+          type: string
+          nullable: true
+        tool:
+          type: string
+          nullable: true
+        job_id:
+          type: string
+          nullable: true
+    AgentTelemetry:
+      type: object
+      properties:
+        agent_id:
+          type: string
+        metrics:
+          type: array
+          items:
+            $ref: '#/components/schemas/TelemetryMetric'
+    AgentHeartbeat:
+      type: object
+      properties:
+        agent_id:
+          type: string
+        status:
+          type: string
+        agent_version:
+          type: string
+          nullable: true
+        current_job_id:
+          type: string
+          nullable: true
+    GitScan:
+      type: object
+      properties:
+        file_tree:
+          type: array
+          items:
+            type: object
+    LLMTrace:
+      type: object
+      properties:
+        run_id:
+          type: string
+        prompt:
+          type: string
+        response:
+          type: string
+        metadata:
+          type: object
+    GamiEvent:
+      type: object
+      properties:
+        event_name:
+          type: string
+        user_id:
+          type: integer
+        context:
+          type: object
+    FileMeta:
+      type: object
+      properties:
+        file_id:
+          type: string
+        file_name:
+          type: string
+
+paths:
+  /health:
+    get:
+      summary: Health check
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Health'
+
+  /auth/login:
+    post:
+      summary: User login
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                username: { type: string }
+                password: { type: string }
+      responses:
+        '200':
+          description: Token pair
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Token'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  /auth/refresh:
+    post:
+      summary: Refresh access token (not implemented in current backend)
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                refresh: { type: string }
+      responses:
+        '200':
+          description: New access token
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Token'
+
+  /auth/logout:
+    post:
+      summary: Logout / blacklist token
+      security:
+        - bearerAuth: []
+      responses:
+        '204':
+          description: Logged out
+
+  /me:
+    get:
+      summary: Get my profile
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: User profile
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+    post:
+      summary: Update my profile
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                display_name: { type: string }
+                email: { type: string }
+                old_password: { type: string }
+                new_password: { type: string }
+      responses:
+        '200':
+          description: Updated profile
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+
+  /config:
+    get:
+      summary: Load app/agent common config
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Config object
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: true
+
+  /llm/traces:
+    post:
+      summary: LLM prompt/response trace (masked)
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LLMTrace'
+      responses:
+        '201':
+          description: Trace recorded
+
+  /llm/feedback:
+    post:
+      summary: Human feedback for LLM run
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                trace_id: { type: string }
+                rating: { type: string, enum: ['good','bad','neutral'] }
+                comment: { type: string }
+      responses:
+        '201':
+          description: Feedback stored
+
+  /llm/cost:
+    post:
+      summary: Report LLM call cost
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                model_name: { type: string }
+                input_tokens: { type: integer }
+                output_tokens: { type: integer }
+                cost_usd: { type: number, format: float }
+      responses:
+        '200':
+          description: Cost recorded
+
+  /policies/redteam:
+    get:
+      summary: Load redteam / guardrail policies
+      responses:
+        '200':
+          description: Policy list
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: string
+
+  /gami/profile:
+    get:
+      summary: Gamification profile (points/level/xp)
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Profile
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  points: { type: integer }
+                  level: { type: integer }
+                  xp: { type: integer }
+
+  /gami/events:
+    post:
+      summary: Gamification event ingest
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/GamiEvent'
+      responses:
+        '201':
+          description: Event accepted
+
+  /gami/badges:
+    get:
+      summary: List owned/available badges
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Badges list
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+
+  /gami/leaderboard:
+    get:
+      summary: Leaderboard (period & filters)
+      parameters:
+        - name: period
+          in: query
+          schema:
+            type: string
+          description: e.g. daily|weekly|all
+      responses:
+        '200':
+          description: Leaderboard entries
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+
+  /agent/jobs/request:
+    post:
+      summary: Agent requests available jobs (poll)
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                agent_id: { type: string }
+                capabilities:
+                  type: array
+                  items: { type: string }
+                status: { type: string }
+                max_jobs: { type: integer }
+                agent_version: { type: string }
+      responses:
+        '200':
+          description: Jobs list (wrapped)
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  jobs:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/AgentJobAssignment'
+
+  /agent/jobs/{job_id}/start:
+    post:
+      summary: Agent starts a job (acquire lock)
+      parameters:
+        - name: job_id
+          in: path
+          required: true
+          schema: { type: string }
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                agent_id: { type: string }
+                start_time: { type: string, format: date-time }
+      responses:
+        '200':
+          description: Job started
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Job'
+
+  /agent/jobs/{job_id}/progress:
+    post:
+      summary: Agent posts job progress / telemetry
+      parameters:
+        - name: job_id
+          in: path
+          required: true
+          schema: { type: string }
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                log_message: { type: string }
+                percent_complete: { type: number, format: float }
+                intermediate_artifact: { type: object }
+      responses:
+        '202':
+          description: Progress accepted
+
+  /agent/jobs/{job_id}/complete:
+    post:
+      summary: Agent marks job complete
+      parameters:
+        - name: job_id
+          in: path
+          required: true
+          schema: { type: string }
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                status: { type: string }
+                summary: { type: string }
+                final_result_url: { type: string }
+                error_message: { type: string }
+      responses:
+        '200':
+          description: Job completed
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  job_id: { type: integer }
+                  status: { type: string }
+
+  /git/projects/register:
+    post:
+      summary: Register Git project (local path / remote)
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Project'
+      responses:
+        '201':
+          description: Project registered
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Project'
+
+  /projects:
+    get:
+      summary: List projects
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Project list
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Project'
+
+  /git/{project_id}/scan:
+    post:
+      summary: Upload file tree / language metrics
+      parameters:
+        - name: project_id
+          in: path
+          required: true
+          schema: { type: integer }
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/GitScan'
+      responses:
+        '201':
+          description: Scan accepted
+
+  /git/{project_id}/issues:
+    post:
+      summary: Upload static analysis issues
+      parameters:
+        - name: project_id
+          in: path
+          required: true
+          schema: { type: integer }
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                analyzer: { type: string }
+                issues:
+                  type: array
+                  items:
+                    type: object
+      responses:
+        '201':
+          description: Issues recorded
+
+  /git/{project_id}/readme:
+    post:
+      summary: Upload generated README draft
+      parameters:
+        - name: project_id
+          in: path
+          required: true
+          schema: { type: integer }
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                content: { type: string }
+                version: { type: string }
+      responses:
+        '201':
+          description: README stored
+
+  /git/{project_id}/commits:
+    post:
+      summary: Report commits metadata
+      parameters:
+        - name: project_id
+          in: path
+          required: true
+          schema: { type: integer }
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                type: object
+      responses:
+        '201':
+          description: Commits recorded
+
+  /git/{project_id}/commits/{commit_id}/diff:
+    post:
+      summary: Upload commit diff/patch
+      parameters:
+        - name: project_id
+          in: path
+          required: true
+          schema: { type: integer }
+        - name: commit_id
+          in: path
+          required: true
+          schema: { type: string }
+      requestBody:
+        required: true
+        content:
+          application/octet-stream:
+            schema:
+              type: string
+              format: binary
+      responses:
+        '201':
+          description: Diff uploaded
+
+  /projects/{project_id}/jobs:
+    post:
+      summary: Create a new job for a project
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: project_id
+          in: path
+          required: true
+          schema: { type: integer }
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                job_type: { type: string }
+                payload: { type: object }
+      responses:
+        '201':
+          description: Job created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Job'
+
+  /projects/{project_id}/jobs/{job_id}:
+    get:
+      summary: Get job detail
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: project_id
+          in: path
+          required: true
+          schema: { type: integer }
+        - name: job_id
+          in: path
+          required: true
+          schema: { type: integer }
+      responses:
+        '200':
+          description: Job detail
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Job'
+
+  /files:
+    post:
+      summary: Upload file (multipart/form-data)
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                file:
+                  type: string
+                  format: binary
+                context_id:
+                  type: string
+                file_name:
+                  type: string
+      responses:
+        '201':
+          description: File uploaded
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FileMeta'
+    get:
+      summary: List files (optional filters)
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: File list
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/FileMeta'
+
+  /files/{file_id}:
+    get:
+      summary: Download file or metadata
+      parameters:
+        - name: file_id
+          in: path
+          required: true
+          schema: { type: string }
+      responses:
+        '200':
+          description: File meta or content
+
+  /datasets:
+    post:
+      summary: Register dataset
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                dataset_name: { type: string }
+                source_url: { type: string }
+      responses:
+        '201':
+          description: Dataset registered
+
+  /webhooks/git:
+    post:
+      summary: Git webhook receiver
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+      responses:
+        '200':
+          description: Webhook processed
+
+  /notifications/create:
+    post:
+      summary: Create notification
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+      responses:
+        '201':
+          description: Notification created
+
+  /activity/logs:
+    post:
+      summary: UI activity / clickstream logs (desktop frontend)
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                events:
+                  type: array
+                  items:
+                    type: object
+      responses:
+        '201':
+          description: Activity logs accepted
+
+  /agent/callbacks/tool:
+    post:
+      summary: Record tool callback for a job
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ToolCallback'
+      responses:
+        '202':
+          description: Tool callback accepted
+
+  /agent/telemetry:
+    post:
+      summary: Report telemetry metrics for an agent
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AgentTelemetry'
+      responses:
+        '202':
+          description: Telemetry accepted
+
+  /agent/heartbeat:
+    post:
+      summary: Agent heartbeat
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AgentHeartbeat'
+      responses:
+        '200':
+          description: Heartbeat recorded
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  agent_id: { type: string }
+                  status: { type: string }
+
+tags:
+  - name: auth
+    description: Authentication & user profile
+  - name: llm
+    description: LLM orchestration & telemetry
+  - name: gamification
+    description: Gamification APIs
+  - name: agent
+    description: Agent / job management
+  - name: git
+    description: Git analyzer / commits
+  - name: files
+    description: File & dataset management
+  - name: webhooks
+    description: Webhooks & notifications

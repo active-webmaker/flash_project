@@ -1,0 +1,33 @@
+flowchart TD
+    subgraph Django_Server
+	    B[Django 서버] <-->|사용자 데이터, 활동| DB[[PostgreSQL]]
+    end
+    
+    subgraph Django_Module
+	    BA[퀴즈 엔진] <--> B
+	    BB[게이미피케이션 엔진] <--> B
+    end
+       		
+		subgraph Mobile
+	    C[모바일 앱] -->|REST API| B
+		end
+
+		subgraph FastAPI_Server
+			D[
+				LangChain 에이전트:
+				LLM API 호출
+			]
+			D <-->|REST API| B
+		end
+	
+		subgraph Desktop_Frontend
+			A[데스크톱 GUI 앱]
+		end
+	
+    subgraph Desktop_Backend
+    	A --> H[LangGraph 에이전트]
+	    H -->|컨텍스트| F[Git 분석기]
+	    H -->|생성된 코드| G[Git 커밋 모듈]
+ 			H -->|REST API| B
+ 			I[로컬_LLM_서버]
+		end

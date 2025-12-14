@@ -1,0 +1,42 @@
+flowchart TD
+    %% MVP 아키텍처 흐름 (업데이트됨)
+    subgraph Desktop_Stack["데스크톱 환경"]
+        U[사용자]
+        UI[Electron + Next.js 데스크톱 앱]
+        Agent[LangGraph 데스크톱 에이전트]
+        Repo[(로컬 Git 저장소)]
+        GitAnalyzer[Git 분석 도구]
+        GitCommit[Git 커밋 모듈]
+        LocalLLM[로컬 LLM 서버\n(llama.cpp OpenAI API)]
+    end
+
+    subgraph Django_Monolith["Django 서버 (REST 모놀리식)"]
+        API[Django API 계층\n(api/, agent/, projects/)]
+        Gamification[게이미피케이션 앱]
+        Quiz[퀴즈 앱]
+        DB[(PostgreSQL DB)]
+    end
+
+    subgraph LLM_Services["LLM 마이크로서비스"]
+        FastAPI[FastAPI 오케스트레이터\nLangChain 2단계 /generate]
+        ExternalLLM[OpenAI GPT-4o (클라우드)]
+    end
+
+    U --> UI
+    UI -->|인증, 프로젝트, 퀘스트, 퀴즈| API
+    API -->|작업 할당 + 상태| Agent
+    Agent -->|진행률 + 텔레메트리| API
+    API <-->|ORM| DB
+    API <--> Gamification
+    API <--> Quiz
+
+    Agent -->|리포지토리 스캔 지표| GitAnalyzer
+    Agent -->|스테이징 및 커밋| GitCommit
+    GitAnalyzer --> Repo
+    GitCommit --> Repo
+
+    Agent -->|ChatCompletion API| LocalLLM
+
+    FastAPI -->|LLM API| ExternalLLM
+    Agent -. 선택적 코드 생성 .-> FastAPI
+    UI -. 계획된 프롬프트 요청 .-> FastAPI
